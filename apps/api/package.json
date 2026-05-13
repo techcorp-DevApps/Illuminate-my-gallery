@@ -1,5 +1,16 @@
 {
   "name": "@illuminate/api",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.1"
   "private": true,
   "type": "module",
   "scripts": {

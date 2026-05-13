@@ -1,6 +1,9 @@
 {
   "name": "illuminate-my-gallery",
   "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "test": "npm -w apps/api test"
   "version": "1.0.0",
   "workspaces": [
     "apps/api",
