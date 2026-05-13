@@ -27,7 +27,7 @@ jobs:
   deploy-render-fallback:
     runs-on: ubuntu-latest
     needs: deploy-railway
-    if: ${{ failure() }}
+    if: ${{ always() && needs.deploy-railway.result == 'failure' }}
     environment: production
     steps:
       - name: Trigger Render deploy hook (API)
@@ -41,9 +41,8 @@ jobs:
 
   smoke-check:
     runs-on: ubuntu-latest
-    needs:
-      - deploy-railway
-    if: ${{ success() }}
+    needs: deploy-railway
+    if: ${{ needs.deploy-railway.result == 'success' }}
     steps:
       - uses: actions/checkout@v4
       - name: Run deployment smoke checks
