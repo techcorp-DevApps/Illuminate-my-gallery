@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Client Portal</title>
+<style>
+body{font-family:Arial;margin:0;background:#f5f5f7}header{background:#222;color:#fff;padding:12px;display:flex;gap:10px;align-items:center}.drawer{position:fixed;left:-240px;top:0;width:220px;height:100%;background:#111;color:#fff;transition:.3s;padding:20px}.drawer.open{left:0}.tabs button{margin-right:6px}.tab{display:none;padding:16px}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}.card{background:#fff;padding:10px;border-radius:8px}.wall{column-count:3;column-gap:8px}.wall img{width:100%;margin-bottom:8px;border-radius:8px}.modal{position:fixed;inset:0;background:#0008;display:none;place-items:center}.modal.show{display:grid;animation:fade .5s}.modal .box{background:#fff;padding:18px;border-radius:10px;width:320px}@keyframes fade{from{opacity:0}to{opacity:1}}
+</style></head><body>
+<div class='drawer' id='drawer'><h3>Portal</h3><p>Gallery</p><p>Documents</p><p>Inbox</p><p>Pricing</p><p>Timeline</p></div>
+<header><button onclick='toggleDrawer()'>☰</button><h2>Client Portal Shell</h2></header>
+<div class='tabs' style='padding:10px'>
+<button onclick="showTab('gallery')">Gallery</button><button onclick="showTab('documents')">Documents</button><button onclick="showTab('inbox')">Inbox</button><button onclick="showTab('pricing')">Pricing/Packages</button><button onclick="showTab('timeline')">Timeline/Status</button><button onclick="showTab('admin')">Admin</button>
+</div>
+<div id='gallery' class='tab active'><h3>Gallery</h3><h4>Private Shoot Images</h4><div id='galleryAll' class='grid'></div><h4>Selected</h4><div id='gallerySel' class='grid'></div></div>
+<div id='documents' class='tab'><h3>Documents</h3><div id='documentsList'></div></div>
+<div id='inbox' class='tab'><h3>Inbox</h3><div id='inboxList'></div></div>
+<div id='pricing' class='tab'><h3>Pricing/Packages</h3><div id='packages'></div><div id='wall' class='wall'></div></div>
+<div id='timeline' class='tab'><h3>Timeline / Status</h3><div id='status'></div></div>
+<div id='admin' class='tab'><h3>Admin</h3><button onclick='sendContract()'>Send Contract</button> <button onclick='phase("booked")'>Set Booked</button> <button onclick='phase("deposit_required")'>Deposit Req</button> <button onclick='phase("shoot_completed")'>Complete Shoot</button>
+<h4>Booking Intake</h4><input id='bname' placeholder='name'><input id='bemail' placeholder='email'><button onclick='newBooking()'>Create Booking</button><div id='bookings'></div></div>
+<div class='modal' id='modal'><div class='box'><h3 id='modalTitle'></h3><p id='modalText'></p><button onclick='closeModal()'>OK</button></div></div>
+<script>
+let data; const clientId=2;
+function toggleDrawer(){drawer.classList.toggle('open')}
+function showTab(id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function closeModal(){modal.classList.remove('show');localStorage.setItem('seenWelcome','1')}
+async function load(){data=await (await fetch(`/api/client/${clientId}/portal`)).json();render();admin();showPhaseModal();}
+function showPhaseModal(){const seen=localStorage.getItem('seenWelcome');modal.classList.add('show');if(!seen){modalTitle.innerText='Welcome to your portal';modalText.innerText='Browse your gallery, inbox, and status updates.'}else{modalTitle.innerText='Process Update';modalText.innerText=data.updateMessage;}}
+function render(){galleryAll.innerHTML=data.gallery.all.map(i=>`<div class='card'><img src='${i.url}' width='100%'><button onclick='selectImg(${i.id})'>Select for purchase</button></div>`).join('');gallerySel.innerHTML=data.gallery.selected.map(i=>`<div class='card'><img src='${i.url}' width='100%'></div>`).join('');
+inboxList.innerHTML=data.inbox.map(d=>`<div class='card'><b>${d.title}</b><br><input id='sig${d.id}' placeholder='Type name as signature'><button onclick='sign(${d.id})'>Sign & Submit</button></div>`).join('');
+documentsList.innerHTML=data.documents.map(d=>`<div class='card'>${d.title}</div>`).join('');
+status.innerText=data.updateMessage;
+if(data.shoot.completed){packages.innerHTML='<i>Shoot completed. Pricing replaced by gallery wall.</i>';wall.innerHTML=[...data.gallery.all,...data.gallery.selected].map(i=>`<img src='${i.url}'>`).join('')}else{wall.innerHTML='';packages.innerHTML=data.packages.filter(p=>p.visible_before_completion).map(p=>`<div class='card'>${p.name} - $${p.price}</div>`).join('')}}
+async function selectImg(id){await fetch(`/api/images/${id}/select`,{method:'POST'});load()}
+async function sign(id){const signature=document.getElementById('sig'+id).value;await fetch(`/api/docs/${id}/sign`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({signature})});load()}
+async function sendContract(){await fetch('/api/admin/docs/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:2,title:'Session Agreement',type:'contract'})});load()}
+async function phase(p){await fetch('/api/admin/shoot/1/phase',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phase:p})});load()}
+async function newBooking(){await fetch('/api/admin/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contact_name:bname.value,contact_email:bemail.value})});admin()}
+async function assignBooking(id){await fetch(`/api/admin/bookings/${id}/assign`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:2})});admin()}
+async function admin(){const d=await (await fetch('/api/admin/dashboard')).json();bookings.innerHTML=d.bookings.map(b=>`<div class='card'>${b.contact_name} (${b.status}) <button onclick='assignBooking(${b.id})'>Assign</button></div>`).join('')}
+load();
+</script></body></html>
