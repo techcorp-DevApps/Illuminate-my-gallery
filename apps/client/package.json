@@ -1,0 +1,11 @@
+{
+  "name": "@illuminate/client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:unit": "vitest run",
+    "test:integration": "echo 'No client integration tests configured'"
+  }
+}

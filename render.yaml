@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: illuminate-api
+    runtime: docker
+    rootDir: .
+    dockerfilePath: apps/api/Dockerfile
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+
+  - type: web
+    name: illuminate-web
+    runtime: docker
+    rootDir: .
+    dockerfilePath: apps/web/Dockerfile
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: API_BASE_URL
+        sync: false

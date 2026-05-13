@@ -11,5 +11,15 @@
   },
   "devDependencies": {
     "supertest": "^7.1.1"
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:unit": "vitest run",
+    "test:integration": "vitest run src/__tests__/api.integration.test.ts"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
   }
 }

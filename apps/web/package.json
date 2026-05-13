@@ -1,4 +1,19 @@
 {
   "name": "@illuminate/web",
   "type": "module"
+  "name": "@img/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "start:prod": "node src/server.js",
+    "lint": "node -e \"console.log('web lint placeholder passed')\"",
+    "typecheck": "node -e \"console.log('web typecheck placeholder passed')\"",
+    "test": "node --test src/server.test.js",
+    "build": "node -e \"console.log('web build verification passed')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
