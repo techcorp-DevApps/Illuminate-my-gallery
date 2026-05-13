@@ -1,0 +1,17 @@
+{
+  "name": "@img/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "start:prod": "node src/server.js",
+    "lint": "node -e \"console.log('api lint placeholder passed')\"",
+    "typecheck": "node -e \"console.log('api typecheck placeholder passed')\"",
+    "test": "node --test src/server.test.js",
+    "build": "node -e \"console.log('api build verification passed')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

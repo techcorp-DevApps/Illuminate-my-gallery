@@ -1,0 +1,11 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "services": {
+    "api": {
+      "rootDirectory": "apps/api"
+    },
+    "web": {
+      "rootDirectory": "apps/web"
+    }
+  }
+}

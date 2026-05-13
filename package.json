@@ -1,0 +1,19 @@
+{
+  "name": "illuminate-my-gallery",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "lint": "npm run lint -ws --if-present",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "test": "npm run test -ws --if-present",
+    "build": "npm run build -ws --if-present",
+    "smoke:deploy": "bash scripts/deployment-smoke-check.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
