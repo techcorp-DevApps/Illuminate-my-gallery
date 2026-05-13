@@ -1,0 +1,11 @@
+{
+  "name": "@illuminate/admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:unit": "vitest run",
+    "test:integration": "echo 'No admin integration tests configured'"
+  }
+}

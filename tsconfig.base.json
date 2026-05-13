@@ -15,5 +15,12 @@
       "@illuminate/types": ["packages/types/src"],
       "@illuminate/config": ["packages/config/src"]
     }
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "types": ["node", "vitest/globals"]
   }
 }

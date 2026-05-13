@@ -2,4 +2,5 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {"outDir": "dist", "moduleResolution": "NodeNext", "module": "NodeNext"},
   "include": ["src"]
+  "include": ["src/**/*.ts", "vitest.config.ts"]
 }
