@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@illuminate/ui": ["packages/ui/src"],
+      "@illuminate/types": ["packages/types/src"],
+      "@illuminate/config": ["packages/config/src"]
+    }
+  }
+}
