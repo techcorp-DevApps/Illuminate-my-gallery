@@ -23,6 +23,8 @@
 | Secret name | Used in | Description |
 |---|---|---|
 | `RAILWAY_TOKEN` | deploy workflow | Railway CLI auth |
+| `RAILWAY_PROJECT_ID` | deploy workflow | Railway project id for non-interactive deploys |
+| `RAILWAY_ENVIRONMENT_ID` | deploy workflow | Railway environment id (production) |
 | `RENDER_API_DEPLOY_HOOK` | deploy workflow | Render API deploy webhook |
 | `RENDER_WEB_DEPLOY_HOOK` | deploy workflow | Render web deploy webhook |
 | `PROD_API_URL` | smoke-check job | API URL for smoke checks |
@@ -38,3 +40,8 @@ Run manually:
 ```bash
 API_URL=https://your-api.example.com WEB_URL=https://your-web.example.com bash scripts/deployment-smoke-check.sh
 ```
+
+
+## Automated Updates
+- Dependabot configuration is tracked in `.github/dependabot.yml`.
+- npm dependencies and GitHub Actions are checked weekly and opened as pull requests.
