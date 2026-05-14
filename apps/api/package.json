@@ -1,44 +1,30 @@
 {
-  "name": "api",
-  "private": true,
+  "name": "@illuminate/api",
   "version": "0.1.0",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
-    "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "test:unit": "vitest run",
+    "test:integration": "vitest run src/__tests__/api.integration.test.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",
-    "fastify": "^5.0.0"
-  },
-  "devDependencies": {
-    "prisma": "^6.0.0",
-    "tsx": "^4.19.1"
-  "name": "@illuminate/api",
-  "type": "module",
-  "scripts": {
-    "test": "node --test"
-  },
-  "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.21.2",
+    "fastify": "^5.0.0",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "supertest": "^7.1.1"
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "lint": "eslint .",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test:unit": "vitest run",
-    "test:integration": "vitest run src/__tests__/api.integration.test.ts"
-  },
-  "devDependencies": {
-    "supertest": "^7.1.4"
+    "prisma": "^6.0.0",
+    "supertest": "^7.1.4",
+    "tsx": "^4.19.1"
   }
 }
