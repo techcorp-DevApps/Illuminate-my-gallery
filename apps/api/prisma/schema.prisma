@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String          @id @default(cuid())
+  email        String          @unique
+  fullName     String
+  roleId       String
+  role         Role            @relation(fields: [roleId], references: [id])
+  clients      Client[]
+  bookings     Booking[]       @relation("BookingCreatedBy")
+  contracts    Contract[]
+  inboxItems   InboxItem[]
+  documents    Document[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+}
+
+model Client {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  brandName   String?
+  shoots      Shoot[]
+  bookings    Booking[]
+  selections  ImageSelection[]
+  createdAt   DateTime @default(now())
+}
+
+model Shoot {
+  id            String          @id @default(cuid())
+  clientId       String
+  client         Client          @relation(fields: [clientId], references: [id])
+  name           String
+  shotAt         DateTime
+  galleryAssets  GalleryAsset[]
+  pricingPackage PricingPackage? @relation(fields: [pricingPackageId], references: [id])
+  pricingPackageId String?
+  statusTimeline StatusTimeline[]
+}
+
+model Booking {
+  id               String   @id @default(cuid())
+  clientId          String
+  client            Client   @relation(fields: [clientId], references: [id])
+  createdByUserId   String
+  createdBy         User     @relation("BookingCreatedBy", fields: [createdByUserId], references: [id])
+  startsAt          DateTime
+  endsAt            DateTime
+  notes             String?
+  statusTimeline    StatusTimeline[]
+  createdAt         DateTime @default(now())
+}
+
+model GalleryAsset {
+  id          String   @id @default(cuid())
+  shootId      String
+  shoot        Shoot    @relation(fields: [shootId], references: [id])
+  url          String
+  mimeType     String
+  metadataJson Json?
+  selections   ImageSelection[]
+  createdAt    DateTime @default(now())
+}
+
+model ImageSelection {
+  id            String       @id @default(cuid())
+  clientId       String
+  client         Client       @relation(fields: [clientId], references: [id])
+  galleryAssetId String
+  galleryAsset   GalleryAsset @relation(fields: [galleryAssetId], references: [id])
+  selectedAt     DateTime     @default(now())
+}
+
+model Contract {
+  id          String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  bookingId    String?
+  bodyMarkdown String
+  signedAt     DateTime?
+}
+
+model InboxItem {
+  id          String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  subject      String
+  body         String
+  readAt       DateTime?
+  createdAt    DateTime @default(now())
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  fileName     String
+  storageUrl   String
+  createdAt    DateTime @default(now())
+}
+
+model StatusTimeline {
+  id         String   @id @default(cuid())
+  shootId    String?
+  shoot      Shoot?   @relation(fields: [shootId], references: [id])
+  bookingId  String?
+  booking    Booking? @relation(fields: [bookingId], references: [id])
+  status     String
+  notes      String?
+  occurredAt DateTime @default(now())
+}
+
+model PricingPackage {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  priceCents  Int
+  shoots      Shoot[]
+}

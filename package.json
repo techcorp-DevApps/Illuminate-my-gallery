@@ -1,7 +1,6 @@
 {
-  "name": "illuminate-my-gallery",
+  "name": "Illuminate-my-gallery",
   "private": true,
-  "version": "1.0.0",
   "workspaces": [
     "apps/*",
     "packages/*"
