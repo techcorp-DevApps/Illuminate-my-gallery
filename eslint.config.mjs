@@ -7,6 +7,16 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+
+  {
+    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    ...tseslint.configs.disableTypeChecked,
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
