@@ -1,41 +1,4 @@
 {
-  "name": "illuminate-my-gallery-monorepo",
-  "private": true,
-  "version": "0.1.0",
-  "packageManager": "pnpm@10.0.0",
-  "scripts": {
-    "dev": "pnpm -r --parallel dev",
-    "build": "pnpm -r build",
-    "lint": "pnpm -r lint",
-    "format": "prettier --write .",
-    "typecheck": "pnpm -r typecheck"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.40.0",
-    "@typescript-eslint/parser": "^8.40.0",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2",
-    "typescript": "^5.8.3"
-  "name": "illuminate-my-gallery",
-  "private": true,
-  "workspaces": ["apps/*"],
-  "scripts": {
-    "test": "npm -w apps/api test"
-  "version": "1.0.0",
-  "workspaces": [
-    "apps/api",
-    "apps/web"
-  ],
-  "scripts": {
-    "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "smoke:deploy": "bash scripts/deployment-smoke-check.sh"
-  },
-  "engines": {
-    "node": ">=20"
   "name": "Illuminate-my-gallery",
   "private": true,
   "workspaces": [
